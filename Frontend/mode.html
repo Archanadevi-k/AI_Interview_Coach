@@ -1,0 +1,70 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Choose Your Interview Mode</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="dashboard-layout">
+    <aside class="sidebar">
+      <h2>AI Interview Coach</h2>
+      <nav>
+        <a href="dashboard.html">Dashboard</a>
+        <a href="interview.html" class="active">Start Interview</a>
+        <a href="login.html">Logout</a>
+      </nav>
+    </aside>
+
+    <main class="dashboard-main">
+      <a class="back-link" id="backToRole" href="role.html">
+        ← Back to Job Role
+      </a>
+
+      <section class="page-card">
+        <h1 class="page-title">Choose Your Interview Mode</h1>
+        <p class="page-description">
+          Select how you would like to attend your mock interview.
+        </p>
+
+        <p>
+          <strong>Selected Job Role:</strong>
+          <span id="selectedRole">Loading...</span>
+        </p>
+
+        <div class="choice-grid">
+          <article class="choice-card">
+            <div class="choice-icon">🎙️</div>
+            <h3>Voice Interview</h3>
+            <p>Practise answering interview questions using your voice.</p>
+            <button
+              type="button"
+              class="primary-btn mode-btn"
+              data-mode="Voice"
+            >
+              Start Voice Interview
+            </button>
+          </article>
+
+          <article class="choice-card">
+            <div class="choice-icon">📹</div>
+            <h3>Video Interview</h3>
+            <p>Practise speaking while using your webcam.</p>
+            <button
+              type="button"
+              class="primary-btn mode-btn"
+              data-mode="Video"
+            >
+              Start Video Interview
+            </button>
+          </article>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="mode.js"></script>
+</body>
+</html>

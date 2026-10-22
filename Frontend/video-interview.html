@@ -1,0 +1,149 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Interview Coach | Video Interview</title>
+  <link rel="stylesheet" href="video-interview.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <div class="robot-icon">♙</div>
+      <span>AI Interview Coach</span>
+    </div>
+
+    <div class="top-info">
+      <span class="record-badge"><i></i> REC</span>
+      <span id="timer">00:00:00</span>
+      <span class="question-count" id="questionCount">Question 1 of 8</span>
+    </div>
+  </header>
+
+    <main class="interview-layout" id="interviewSection">
+    <section class="candidate-panel">
+      <video id="candidateVideo" autoplay muted playsinline></video>
+
+      <div class="camera-placeholder" id="cameraPlaceholder">
+        <div class="placeholder-icon">◉</div>
+        <p>Connecting to your camera…</p>
+      </div>
+
+      <div class="candidate-label">▣ &nbsp; You · Candidate</div>
+      <div class="camera-status" id="cameraStatus">Camera connecting</div>
+    </section>
+
+    <aside class="right-panel">
+      <section class="ai-visual-panel">
+        <span class="panel-tag">AI Interviewer</span>
+
+        <div class="orb-wrap" id="orbWrap">
+          <div class="orb-ring ring-one"></div>
+          <div class="orb-ring ring-two"></div>
+          <div class="orb-core">
+            <div class="sound-symbol">
+              <span></span><span></span><span></span>
+              <span></span><span></span><span></span><span></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="waveform" id="waveform">
+          <span></span><span></span><span></span><span></span>
+          <span></span><span></span><span></span><span></span>
+          <span></span><span></span><span></span><span></span>
+          <span></span>
+        </div>
+
+        <p id="aiState">AI is ready</p>
+      </section>
+
+      <section class="question-panel">
+        <div class="section-label">AI INTERVIEWER</div>
+        <p id="questionText">Click Start Interview to begin.</p>
+        <div class="caption-label">LIVE CAPTION</div>
+        <p id="liveCaption" aria-live="polite">
+          The AI question will appear here.
+        </p>
+      </section>
+
+      <section class="warning-panel" id="warningPanel">
+        <span class="warning-icon">⚠</span>
+        <span id="warningText">
+          Please keep your face inside the camera frame.
+        </span>
+      </section>
+    </aside>
+  </main>
+
+
+  <footer class="control-bar">
+    <div class="left-controls">
+      <button id="muteButton" class="control-btn">🎙 &nbsp; Mute</button>
+      <button id="cameraButton" class="control-btn">▣ &nbsp; Camera</button>
+    </div>
+
+    <div class="center-controls">
+      <button id="startButton" class="control-btn primary-btn">
+        ▶ Start Interview
+      </button>
+      <button id="repeatButton" class="control-btn" disabled>
+        ↻ Repeat
+      </button>
+      <button id="continueButton" class="control-btn" disabled>
+        Continue →
+      </button>
+      <button id="endButton" class="control-btn end-btn" disabled>
+        ☎ End Interview
+      </button>
+      <button id="backToSetupBtn" class="back-to-setup-btn" type="button">
+        ← Back to Setup
+       </button>
+    </div>
+
+    <div class="right-controls">
+      <button id="settingsButton" class="icon-btn" title="Settings">⚙</button>
+      <button id="fullscreenButton" class="icon-btn" title="Fullscreen">⛶</button>
+    </div>
+  </footer>
+<section id="feedbackPanel" class="feedback-panel" hidden>
+  <h2>Interview Feedback</h2>
+
+  <div class="overall-score-card">
+    <span>Overall Interview Score</span>
+    <strong id="overallScore">--/100</strong>
+  </div>
+
+  <div class="feedback-columns">
+    <div>
+      <h3>Strengths</h3>
+      <ul id="overallStrengths"></ul>
+    </div>
+
+    <div>
+      <h3>Areas to Improve</h3>
+      <ul id="overallImprovements"></ul>
+    </div>
+  </div>
+
+  <div class="better-answers-section">
+    <h3>Suggested Better Answers</h3>
+    <div id="betterAnswers"></div>
+  </div>
+
+  
+<div class="feedback-actions">
+  <button type="button" id="startInterviewAgainBtn">
+    ↻ Start Interview Again
+  </button>
+
+  <button type="button" id="backToSetupBtn">
+    ← Back to Setup
+  </button>
+</div>
+
+</section>
+  <script src="video-interview.js"></script>
+</body>
+</html>

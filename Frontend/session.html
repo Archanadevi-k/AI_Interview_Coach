@@ -1,0 +1,229 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Interview Setup | AI Interview Coach</title>
+  <link rel="stylesheet" href="style.css">
+
+  <style>
+    .setup-container {
+      max-width: 850px;
+      margin: 40px auto;
+      padding: 24px;
+    }
+
+    .setup-card {
+      background: #ffffff;
+      padding: 32px;
+      border-radius: 16px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+      margin-top: 25px;
+    }
+
+    .setup-card h1 {
+      margin-bottom: 10px;
+    }
+
+    .setup-card p {
+      line-height: 1.7;
+      color: #555;
+    }
+
+    .setup-info {
+      background: #f5f7ff;
+      border-radius: 12px;
+      padding: 18px;
+      margin: 22px 0;
+    }
+
+    .setup-info p {
+      margin: 10px 0;
+      color: #222;
+    }
+
+    .setup-label {
+      display: block;
+      font-weight: 600;
+      margin: 22px 0 10px;
+    }
+
+    .setup-select {
+      width: 100%;
+      max-width: 450px;
+      padding: 13px;
+      border: 1px solid #d1d5db;
+      border-radius: 9px;
+      font-size: 16px;
+      background: white;
+    }
+
+    .setup-button {
+      display: inline-block;
+      margin-top: 25px;
+      padding: 14px 24px;
+      border: none;
+      border-radius: 9px;
+      background: #4f46e5;
+      color: white;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .setup-button:hover {
+      background: #3730a3;
+    }
+
+    .setup-note {
+      margin-top: 20px;
+      padding: 15px;
+      background: #f0fdf4;
+      border-left: 4px solid #16a34a;
+      border-radius: 7px;
+    }
+
+    @media (max-width: 650px) {
+      .setup-container {
+        padding: 14px;
+        margin: 20px auto;
+      }
+
+      .setup-card {
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+
+
+  <div class="dashboard-layout">
+
+    <aside class="sidebar">
+      <h2>AI Interview Coach</h2>
+
+      <nav>
+        <a href="dashboard.html">Dashboard</a>
+        <a href="interview.html" class="active">Start Interview</a>
+        <a href="login.html">Logout</a>
+      </nav>
+    </aside>
+
+    <main class="dashboard-main">
+
+      <div class="setup-container">
+
+        <a href="mode.html" class="back-link">
+          ← Back to Interview Mode
+        </a>
+
+        <section class="setup-card">
+
+          <h1>Interview Setup</h1>
+
+          <p>
+            Customize your interview session before starting.
+            Choose your preferred difficulty level and begin practicing.
+          </p>
+
+          <div class="setup-info">
+
+            <p>
+              <strong>Selected Role:</strong>
+              <span id="roleName">Loading...</span>
+            </p>
+
+            <p>
+              <strong>Interview Mode:</strong>
+              <span id="modeName">Loading...</span>
+            </p>
+
+          </div>
+
+          <label class="setup-label" for="difficulty">
+            Select Difficulty Level
+          </label>
+
+          <select id="difficulty" class="setup-select">
+            <option value="Easy">Easy</option>
+            <option value="Medium" selected>Medium</option>
+            <option value="Difficult">Difficult</option>
+          </select>
+          
+          <div class="setup-note">
+            <strong>What to expect</strong>
+            <p>
+              Your interview will begin with “Tell me about yourself.”
+              Questions will be selected from the question bank for your
+              chosen role. Each question includes answer guidance,
+              suggested answering time, and improvement tips.
+            </p>
+          </div>
+
+          <button
+            type="button"
+            class="setup-button"
+            id="startButton"
+          >
+            Start Interview →
+          </button>
+
+        </section>
+
+      </div>
+
+    </main>
+  </div>
+
+<script>
+  const params = new URLSearchParams(window.location.search);
+
+  const selectedRole = params.get("role") || "Software Developer";
+  const selectedType = (params.get("type") || "role").toLowerCase();
+  let selectedMode = (params.get("mode") || "voice").toLowerCase();
+
+  document.getElementById("roleName").textContent =
+    selectedType === "resume"
+      ? "Resume-Based Interview"
+      : selectedRole.replace(/[-_]/g, " ");
+
+  document.getElementById("modeName").textContent =
+    selectedMode.charAt(0).toUpperCase() + selectedMode.slice(1);
+
+  document.getElementById("startButton").addEventListener("click", () => {
+    const difficulty = document.getElementById("difficulty").value;
+
+    if (selectedType === "resume") {
+      const resumeText = sessionStorage.getItem("resumeText");
+
+      if (!resumeText) {
+        alert("Please upload your resume first.");
+        return;
+      }
+    }
+
+    const nextParams = new URLSearchParams({
+      type: selectedType,
+      mode: selectedMode,
+      difficulty: difficulty,
+      role: selectedRole
+    });
+
+    const file = params.get("file");
+    if (file) {
+      nextParams.set("file", file);
+    }
+
+    const destination =
+      selectedMode === "video"
+        ? "video-interview.html"
+        : "questions.html";
+
+    window.location.href =
+      `${destination}?${nextParams.toString()}`;
+  });
+</script>
+
+</body>
+</html>

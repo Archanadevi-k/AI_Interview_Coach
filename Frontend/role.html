@@ -1,0 +1,56 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Select Job Role</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="dashboard-layout">
+    <aside class="sidebar">
+      <h2>AI Interview Coach</h2>
+      <nav>
+        <a href="dashboard.html">Dashboard</a>
+        <a href="interview.html" class="active">Start Interview</a>
+        <a href="login.html">Logout</a>
+      </nav>
+    </aside>
+
+    <main class="dashboard-main">
+      <a class="back-link" href="interview.html">← Back to Interview Type</a>
+
+      <section class="page-card">
+        <h1 class="page-title">Select Your Job Role</h1>
+        <p class="page-description">
+          Choose the role you want to prepare for.
+        </p>
+
+        <form id="roleForm">
+          <div class="form-group">
+            <label for="jobRole">Target Job Role</label>
+            <select id="jobRole" required>
+              <option value="">Select a job role</option>
+              <option value="AI/ML Engineer">AI/ML Engineer</option>
+              <option value="Data Scientist">Data Scientist</option>
+              <option value="Data Analyst">Data Analyst</option>
+              <option value="Software Developer">Software Developer</option>
+              <option value="Web Developer">Web Developer</option>
+              <option value="Python Developer">Python Developer</option>
+              <option value="Cybersecurity Analyst">Cybersecurity Analyst</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+
+          <p id="roleMessage" class="form-message" aria-live="polite"></p>
+
+          <button type="submit" class="primary-btn">Continue</button>
+        </form>
+      </section>
+    </main>
+  </div>
+
+  <script src="role.js"></script>
+</body>
+</html>

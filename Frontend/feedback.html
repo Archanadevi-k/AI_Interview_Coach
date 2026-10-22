@@ -1,0 +1,100 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Interview Feedback | AI Interview Coach</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .feedback-container {
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 24px;
+    }
+
+    .feedback-card {
+      background: white;
+      padding: 28px;
+      margin: 20px 0;
+      border-radius: 14px;
+      box-shadow: 0 4px 18px rgba(0,0,0,.08);
+    }
+
+    .score {
+      font-size: 48px;
+      font-weight: 700;
+      color: #4f46e5;
+    }
+
+    .feedback-card li {
+      margin: 10px 0;
+      line-height: 1.6;
+    }
+
+    .feedback-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin: 24px 0;
+    }
+
+    .feedback-actions button {
+      padding: 13px 20px;
+      border: 0;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    .primary-btn {
+      background: #4f46e5;
+      color: white;
+    }
+
+    .secondary-btn {
+      background: #e5e7eb;
+      color: #111827;
+    }
+  </style>
+</head>
+<body>
+  <main class="feedback-container">
+    <h1>Interview Feedback</h1>
+    <p>Review your performance and prepare for your next interview.</p>
+
+    <section class="feedback-card">
+      <h2>Overall Score</h2>
+      <div class="score" id="overallScore">--/100</div>
+    </section>
+
+    <section class="feedback-card">
+      <h2>Strengths</h2>
+      <ul id="strengths"></ul>
+    </section>
+
+    <section class="feedback-card">
+      <h2>Areas to Improve</h2>
+      <ul id="areasToImprove"></ul>
+    </section>
+
+    <section class="feedback-card">
+      <h2>Suggested Answers</h2>
+      <div id="improvedAnswers"></div>
+    </section>
+
+    <div class="feedback-actions">
+      <button class="primary-btn" id="restartBtn">
+        Start Interview Again
+      </button>
+      <button class="secondary-btn" id="setupBtn">
+        Back to Setup
+      </button>
+    </div>
+
+    <p id="feedbackMessage"></p>
+  </main>
+
+  <script src="feedback.js"></script>
+</body>
+</html>

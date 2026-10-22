@@ -1,0 +1,679 @@
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  background: #f5f7fb;
+  color: #1e293b;
+}
+
+.dashboard-layout {
+  display: flex;
+  min-height: 100vh;
+}
+
+.sidebar {
+  width: 245px;
+  flex-shrink: 0;
+  background: #172554;
+  color: white;
+  padding: 28px 18px;
+}
+
+.sidebar h2 {
+  font-size: 21px;
+  line-height: 1.4;
+  margin: 0 0 35px;
+}
+
+.sidebar nav {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.sidebar nav a {
+  display: block;
+  color: #dbeafe;
+  text-decoration: none;
+  padding: 13px 14px;
+  border-radius: 9px;
+}
+
+.sidebar nav a:hover,
+.sidebar nav a.active {
+  background: #3730a3;
+  color: white;
+}
+
+.dashboard-main {
+  flex: 1;
+  min-width: 0;
+  padding: 34px;
+}
+
+.dashboard-header {
+  margin-bottom: 25px;
+}
+
+.dashboard-header h1 {
+  margin: 0 0 8px;
+  font-size: 30px;
+}
+
+.dashboard-header p,
+.welcome-banner p {
+  color: #64748b;
+  line-height: 1.6;
+}
+
+.welcome-banner {
+  padding: 30px;
+  margin-bottom: 30px;
+  border-radius: 18px;
+  background: linear-gradient(120deg, #eef2ff, #e0e7ff);
+}
+
+.welcome-banner h2 {
+  margin-top: 0;
+  font-size: 25px;
+}
+
+.overview-section h2 {
+  margin-bottom: 20px;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.stat-card {
+  background: white;
+  padding: 22px;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.04);
+}
+
+.stat-card h3 {
+  font-size: 15px;
+  color: #64748b;
+  margin-top: 0;
+}
+
+.stat-card p {
+  font-size: 23px;
+  font-weight: bold;
+  margin-bottom: 0;
+  overflow-wrap: anywhere;
+}
+
+.page-card {
+  max-width: 850px;
+  margin: 15px auto;
+  padding: 32px;
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 18px;
+  box-shadow: 0 6px 24px rgba(15, 23, 42, 0.05);
+}
+
+.page-title {
+  margin: 0 0 10px;
+  font-size: 28px;
+}
+
+.page-description {
+  color: #64748b;
+  line-height: 1.7;
+  margin-bottom: 25px;
+}
+
+.choice-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 22px;
+  margin-top: 25px;
+}
+
+.choice-card {
+  padding: 25px;
+  border: 1px solid #e2e8f0;
+  border-radius: 15px;
+  background: #fff;
+}
+
+.choice-card h3 {
+  margin-top: 10px;
+}
+
+.choice-card p {
+  color: #64748b;
+  line-height: 1.7;
+}
+
+.choice-icon {
+  font-size: 38px;
+}
+
+.primary-btn,
+.secondary-btn {
+  display: inline-block;
+  padding: 12px 19px;
+  margin-top: 12px;
+  border: none;
+  border-radius: 9px;
+  font-size: 15px;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.primary-btn {
+  color: white;
+  background: #4f46e5;
+}
+
+.primary-btn:hover {
+  background: #4338ca;
+}
+
+.secondary-btn {
+  color: #3730a3;
+  background: #eef2ff;
+}
+
+.form-group {
+  margin: 22px 0;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 10px;
+  font-weight: 600;
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 13px;
+  border: 1px solid #cbd5e1;
+  border-radius: 9px;
+  background: white;
+  font-size: 15px;
+}
+
+.form-message {
+  color: #475569;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+
+.back-link {
+  display: inline-block;
+  margin-bottom: 25px;
+  color: #4338ca;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.back-link:hover {
+  text-decoration: underline;
+}
+
+.dashboard-footer {
+  margin-top: 45px;
+  padding: 20px 0;
+  color: #64748b;
+  font-size: 13px;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+@media (max-width: 800px) {
+  .dashboard-layout {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    padding: 18px;
+  }
+
+  .sidebar h2 {
+    margin-bottom: 15px;
+  }
+
+  .sidebar nav {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .dashboard-main {
+    padding: 20px;
+  }
+
+  .stats-grid,
+  .choice-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .page-card {
+    padding: 22px;
+  }
+}
+
+/* Center the main content on interview pages */
+.dashboard-main {
+  flex: 1;
+  min-width: 0;
+  padding: 34px;
+}
+
+/* Center interview page boxes */
+.page-card {
+  width: 100%;
+  max-width: 900px;
+  margin: 25px auto;
+  padding: 35px;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 18px;
+  box-shadow: 0 6px 24px rgba(15, 23, 42, 0.06);
+}
+
+/* Center the title and description */
+.page-title {
+  text-align: center;
+  margin: 0 0 12px;
+}
+
+.page-description {
+  text-align: center;
+  margin: 0 auto 28px;
+  max-width: 650px;
+  line-height: 1.7;
+  color: #64748b;
+}
+
+/* Center Resume-Based and Role-Based cards */
+.choice-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+  width: 100%;
+  max-width: 780px;
+  margin: 28px auto 0;
+}
+
+.choice-card {
+  text-align: center;
+  padding: 30px 24px;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  background: #ffffff;
+}
+
+/* Center the icons */
+.choice-icon {
+  font-size: 40px;
+  margin-bottom: 14px;
+}
+
+/* Center form boxes and fields */
+.page-card form {
+  width: 100%;
+  max-width: 620px;
+  margin: 0 auto;
+}
+
+.page-card .form-group {
+  width: 100%;
+  margin: 22px auto;
+  text-align: left;
+}
+
+/* Keep form labels left-aligned for readability */
+.page-card .form-group label {
+  display: block;
+  margin-bottom: 10px;
+  font-weight: 600;
+}
+
+.page-card .form-group input,
+.page-card .form-group select {
+  width: 100%;
+  padding: 13px;
+  border: 1px solid #cbd5e1;
+  border-radius: 9px;
+  background: #ffffff;
+  font-size: 15px;
+}
+
+/* Center buttons and session information */
+.page-card > .primary-btn,
+.page-card > .secondary-btn {
+  margin: 12px 6px 0;
+}
+
+.page-card .stat-card {
+  max-width: 620px;
+  margin: 20px auto;
+}
+
+/* Responsive layout for mobile screens */
+@media (max-width: 800px) {
+  .dashboard-main {
+    padding: 20px 14px;
+  }
+
+  .page-card {
+    padding: 24px 18px;
+    margin: 15px auto;
+  }
+
+  .choice-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Center the welcome banner on the dashboard */
+.welcome-banner {
+  width: 100%;
+  max-width: 1000px;
+  margin: 30px auto !important;
+  padding: 40px 30px !important;
+  text-align: center !important;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Center the welcome heading */
+.welcome-banner h2 {
+  width: 100%;
+  text-align: center !important;
+  margin: 0 0 12px;
+}
+
+/* Center the welcome description */
+.welcome-banner p {
+  width: 100%;
+  text-align: center !important;
+  margin: 0 0 18px;
+}
+
+/* Center the Start Interview button */
+#welcome-banner #startInterviewBtn,
+.welcome-banner #startInterviewBtn {
+  display: block;
+  margin: 12px auto 0 !important;
+}
+
+/* Center dashboard header content */
+.dashboard-header {
+  width: 100%;
+  text-align: center !important;
+  margin: 0 auto 28px !important;
+}
+
+.dashboard-header h1,
+.dashboard-header p {
+  text-align: center !important;
+}
+
+/* Responsive spacing */
+@media (max-width: 768px) {
+  .welcome-banner {
+    padding: 28px 18px !important;
+  }
+}
+
+
+/* ===== Login and Register Page Design ===== */
+
+.register-container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 30px 16px;
+    background: linear-gradient(135deg, #eef2ff, #f8fafc, #e0e7ff);
+}
+
+.register-card {
+    width: 100%;
+    max-width: 440px;
+    padding: 36px;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 20px;
+    box-shadow: 0 12px 35px rgba(30, 41, 59, 0.10);
+}
+
+.register-card .logo {
+    width: 58px;
+    height: 58px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 22px;
+    border-radius: 16px;
+    background: #4f46e5;
+    color: #ffffff;
+    font-size: 25px;
+    font-weight: 700;
+}
+
+.register-card h1 {
+    margin: 0 0 12px;
+    text-align: center;
+    font-size: 27px;
+    color: #172554;
+}
+
+.register-card .subtitle {
+    margin: 0 auto 28px;
+    text-align: center;
+    color: #64748b;
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+.register-card .form-group {
+    margin: 20px 0;
+}
+
+.register-card .form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #334155;
+}
+
+.register-card .form-group input {
+    width: 100%;
+    padding: 13px 14px;
+    border: 1px solid #cbd5e1;
+    border-radius: 9px;
+    background: #ffffff;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.register-card .form-group input:focus {
+    border-color: #4f46e5;
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.12);
+}
+
+.register-card button[type="submit"] {
+    width: 100%;
+    padding: 14px;
+    margin-top: 8px;
+    border: none;
+    border-radius: 10px;
+    background: #4f46e5;
+    color: #ffffff;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.2s;
+}
+
+.register-card button[type="submit"]:hover {
+    background: #4338ca;
+    transform: translateY(-1px);
+}
+
+.register-card .login-link {
+    margin: 24px 0 18px;
+    text-align: center;
+    color: #64748b;
+    font-size: 13px;
+    line-height: 1.7;
+}
+
+.register-card .login-link a {
+    color: #4f46e5;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.register-card .login-link a:hover {
+    text-decoration: underline;
+}
+
+.register-card .footer-text {
+    margin: 20px 0 0;
+    padding-top: 18px;
+    border-top: 1px solid #e2e8f0;
+    text-align: center;
+    color: #94a3b8;
+    font-size: 11px;
+}
+
+.register-card #message,
+.register-card #loginMessage {
+    color: #475569;
+    overflow-wrap: anywhere;
+}
+
+@media (max-width: 480px) {
+    .register-card {
+        padding: 26px 20px;
+        border-radius: 16px;
+    }
+
+    .register-card h1 {
+        font-size: 23px;
+    }
+
+    .login-options {
+        flex-wrap: wrap;
+    }
+}
+
+.ai-interviewer {
+  color: #f8fafc;
+  background: #111827;
+  border: 1px solid #374151;
+  border-radius: 18px;
+  padding: 24px;
+  text-align: center;
+  font-family: Arial, sans-serif;
+}
+
+.ai-voice-orb {
+  width: 120px;
+  height: 120px;
+  margin: 0 auto 16px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: radial-gradient(circle, #38bdf8, #4f46e5 65%, #111827);
+  box-shadow: 0 0 25px #6366f180;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.ai-voice-orb.speaking {
+  animation: aiPulse 0.8s ease-in-out infinite alternate;
+}
+
+@keyframes aiPulse {
+  from {
+    transform: scale(1);
+    box-shadow: 0 0 20px #38bdf880;
+  }
+  to {
+    transform: scale(1.1);
+    box-shadow: 0 0 42px #818cf8;
+  }
+}
+
+.ai-caption-box {
+  background: #1f2937;
+  padding: 14px;
+  border-radius: 12px;
+  margin: 20px 0;
+  text-align: left;
+}
+
+.ai-caption-box span {
+  color: #7dd3fc;
+  font-size: 12px;
+  letter-spacing: 1px;
+}
+
+#aiCaption {
+  font-size: 18px;
+  line-height: 1.5;
+  margin-bottom: 0;
+}
+
+.interview-controls {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.interview-controls button {
+  padding: 10px 15px;
+  border: 0;
+  border-radius: 9px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+#startAIInterview {
+  background: #2563eb;
+  color: white;
+}
+
+#repeatAIQuestion,
+#nextAIQuestion {
+  background: #374151;
+  color: white;
+}
+
+#endAIInterview {
+  background: #dc2626;
+  color: white;
+}
+
+#answerStatus,
+#aiStatus {
+  color: #cbd5e1;
+  font-size: 14px;
+}

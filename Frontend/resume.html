@@ -1,0 +1,52 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Upload Resume</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="dashboard-layout">
+    <aside class="sidebar">
+      <h2>AI Interview Coach</h2>
+      <nav>
+        <a href="dashboard.html">Dashboard</a>
+        <a href="interview.html" class="active">Start Interview</a>
+        <a href="login.html">Logout</a>
+      </nav>
+    </aside>
+
+    <main class="dashboard-main">
+      <a class="back-link" href="interview.html">← Back to Interview Type</a>
+
+      <section class="page-card">
+        <h1 class="page-title">Resume-Based Interview</h1>
+        <p class="page-description">
+          Upload your resume as a PDF file to continue.
+        </p>
+
+        <form id="resumeForm">
+          <div class="form-group">
+            <label for="resumeFile">Upload Your Resume (PDF)</label>
+            <input
+              type="file"
+              id="resumeFile"
+              name="resumeFile"
+              accept=".pdf,application/pdf"
+              required
+            >
+          </div>
+
+          <p id="resumeMessage" class="form-message" aria-live="polite"></p>
+
+          <button type="submit" class="primary-btn">Continue</button>
+        </form>
+      </section>
+    </main>
+  </div>
+
+  <script src="resume.js"></script>
+</body>
+</html>

@@ -1,0 +1,33 @@
+.env
+.venv/
+__pycache__/
+*.py[cod]
+
+
+# API keys and environment files
+.env
+.env.*
+!.env.example
+**/.env
+**/.env.*
+
+# Hide Supabase JavaScript file
+Backend/supabase.js
+
+# Python virtual environments
+.venv/
+venv/
+**/.venv/
+**/venv/
+
+# Python cache
+__pycache__/
+**/__pycache__/
+*.py[cod]
+
+# Node dependencies
+node_modules/
+**/node_modules/
+
+# Editor files
+.vscode/

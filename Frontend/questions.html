@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Interview Questions | AI Interview Coach</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .question-page { max-width: 900px; margin: 30px auto; padding: 24px; }
+    .question-card { background: white; padding: 28px; border-radius: 16px; box-shadow: 0 4px 18px rgba(0,0,0,.07); margin-top: 22px; }
+    .tag { display: inline-block; padding: 7px 12px; border-radius: 20px; background: #e8efff; color: #2347a5; margin: 4px; }
+    #questionText { font-size: 24px; line-height: 1.5; margin: 24px 0; }
+    .answer-box { box-sizing: border-box; width: 100%; min-height: 170px; padding: 14px; border: 1px solid #d1d5db; border-radius: 10px; font-size: 16px; margin-top: 12px; }
+    .controls { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
+    .controls button { border: 0; padding: 12px 18px; border-radius: 9px; cursor: pointer; background: #4f46e5; color: white; }
+    .controls button:disabled { opacity: .5; cursor: not-allowed; }
+    .guidance, .feedback, .report { background: #f8fafc; padding: 18px; border-radius: 10px; margin-top: 20px; line-height: 1.7; }
+    .feedback { background: #f0fdf4; border-left: 4px solid #16a34a; }
+    .feedback h4 { margin-bottom: 6px; }
+    .feedback p { overflow-wrap: anywhere; }
+    .sample-answer { background: #fff; border: 1px solid #d1d5db; border-radius: 8px; padding: 12px; }
+    .recording-timer { display: inline-flex; align-items: center; gap: 8px; margin-top: 14px; padding: 10px 14px; border-radius: 10px; background: #fff1f2; color: #be123c; font-weight: 600; }
+    .recording-dot { width: 9px; height: 9px; border-radius: 50%; background: #e11d48; display: inline-block; animation: recordingPulse 1s infinite; }
+    @keyframes recordingPulse { 50% { opacity: .35; } }
+    .score { font-size: 36px; font-weight: bold; color: #4f46e5; }
+    .progress { height: 8px; background: #e5e7eb; border-radius: 10px; overflow: hidden; margin-top: 16px; }
+    #progressFill { height: 100%; width: 0; background: #4f46e5; }
+    [hidden] { display: none !important; }
+    @media (max-width: 650px) {
+      .question-page { padding: 12px; }
+      .question-card { padding: 18px; }
+      #questionText { font-size: 20px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="dashboard-layout">
+    <aside class="sidebar">
+      <h2>AI Interview Coach</h2>
+      <nav>
+        <a href="dashboard.html">Dashboard</a>
+        <a href="interview.html" class="active">Start Interview</a>
+        <a href="login.html">Logout</a>
+      </nav>
+    </aside>
+    <main class="dashboard-main">
+      <div class="question-page">
+        <a href="session.html" class="back-link">← Back to Setup</a>
+        <h1>Interview Practice</h1>
+        <p id="roleInfo"></p>
+        <section class="question-card" id="interviewCard" hidden>
+          <span class="tag" id="questionNumber"></span>
+          <span class="tag" id="difficultyLabel"></span>
+          <div class="progress"><div id="progressFill"></div></div>
+          <!-- Video Interview Camera Preview -->
+<div id="videoInterviewSection"
+     style="display: none; margin-bottom: 20px;">
+
+    <h3>📹 Video Interview</h3>
+
+    <video id="cameraPreview"
+           autoplay
+           muted
+           playsinline
+           style="width: 100%; max-width: 480px;
+                  background: #222; border-radius: 12px;">
+    </video>
+
+    <p id="cameraStatus">Camera not started</p>
+
+    <button type="button" id="startCameraButton">
+        Start Camera
+    </button>
+
+    <button type="button" id="stopCameraButton">
+        Stop Camera
+    </button>
+      </div>
+          <h2 id="questionText"></h2>
+          <div class="guidance">
+            <h3>Answer Guidance</h3>
+            <p><strong>Suggested time:</strong> <span id="answerTime"></span></p>
+            <p><strong>What to include:</strong></p>
+            <ul id="guidanceList"></ul>
+          </div>
+          <div class="controls">
+            <button id="readAgainButton" type="button">🔊 Read Question Again</button>
+            <button id="recordButton" type="button">🎙️ Start Voice Input</button>
+            <button id="stopButton" type="button" disabled>⏹ Stop Voice Input</button>
+          </div>
+          <p id="recordingTimer" class="recording-timer" hidden aria-live="polite">
+            <span class="recording-dot" aria-hidden="true"></span>
+            Recording time: <strong id="elapsedTime">00:00</strong>
+          </p>
+          <p id="status" aria-live="polite">Type your answer or use voice input if supported.</p>
+          <label for="answerText"><strong>Your Answer</strong></label>
+          <textarea id="answerText" class="answer-box" placeholder="Start your answer here..."></textarea>
+          <div class="controls">
+            <button id="submitButton" type="button">Submit Answer</button>
+            <button id="endButton" type="button">End Interview</button>
+          </div>
+          <div id="feedbackBox" class="feedback" hidden aria-live="polite">
+            <h3>Feedback</h3>
+            <p><strong>Practice score:</strong> <span id="answerScore"></span>/100</p>
+            <p><strong>Strengths:</strong> <span id="strengthText"></span></p>
+            <p><strong>Areas to improve:</strong> <span id="improvementText"></span></p>
+            <p><strong>Missing concepts:</strong> <span id="missingConceptsText">—</span></p>
+            <h4>Suggested improved answer</h4>
+            <p id="sampleAnswerText" class="sample-answer">Submit your answer to receive an AI suggestion.</p>
+          </div>
+          <div class="controls">
+            <button id="nextButton" type="button" hidden>Next Question →</button>
+          </div>
+        </section>
+        <section class="question-card report" id="reportCard" hidden>
+          <h2>Your Interview Report</h2>
+          <p>Overall practice score</p>
+          <div class="score"><span id="finalScore">0</span>/100</div>
+          <p id="reportSummary"></p>
+          <h3>Strengths</h3>
+          <ul id="reportStrengths"></ul>
+          <h3>Areas to Improve</h3>
+          <ul id="reportImprovements"></ul>
+          <button id="restartButton" type="button">Practice Again</button>
+        </section>
+      </div>
+    </main>
+  </div>
+  <script>
+    const params = new URLSearchParams(location.search);
+    const role = params.get("role") || "Software Developer";
+    const mode = params.get("mode") || "voice";
+    const isVideoMode = mode.toLowerCase() === "video";
+    const difficulty = params.get("difficulty") || "Medium";
+    document.getElementById("roleInfo").textContent =
+      `Role: ${role} | Mode: ${mode} | Difficulty: ${difficulty}`;
+
+    const roleTopics = {
+      "AI/ML Engineer": [
+        "supervised learning", "unsupervised learning", "deep learning",
+        "neural networks", "feature engineering", "data preprocessing",
+        "model evaluation", "overfitting", "underfitting", "classification",
+        "regression", "clustering", "natural language processing",
+        "computer vision", "model deployment", "data drift", "model monitoring",
+        "class imbalance", "explainable AI", "MLOps"
+      ],
+      "Data Scientist": [
+        "data cleaning", "exploratory data analysis", "hypothesis testing",
+        "statistical significance", "feature selection", "regression",
+        "classification", "clustering", "outlier detection", "missing values",
+        "data visualization", "A/B testing", "time-series analysis",
+        "data leakage", "model validation", "precision and recall",
+        "business metrics", "data storytelling", "experimental design",
+        "reproducible pipelines"
+      ],
+      "Data Analyst": [
+        "SQL joins", "SQL aggregation", "Excel functions", "data cleaning",
+        "duplicate records", "missing values", "dashboard design", "KPI selection",
+        "data visualization", "business reporting", "sales analysis",
+        "customer segmentation", "trend analysis", "outlier detection",
+        "data validation", "pivot tables", "query optimization", "report automation",
+        "stakeholder communication", "business decision-making"
+      ],
+      "Software Developer": [
+        "object-oriented programming", "data structures", "algorithms",
+        "time complexity", "database design", "REST APIs", "unit testing",
+        "integration testing", "debugging", "Git version control",
+        "exception handling", "authentication", "application security",
+        "design patterns", "memory management", "concurrency", "code review",
+        "system design", "performance optimization", "deployment"
+      ],
+      "Web Developer": [
+        "HTML semantics", "CSS Flexbox", "CSS Grid", "JavaScript events",
+        "DOM manipulation", "responsive design", "form validation", "REST APIs",
+        "HTTP status codes", "browser rendering", "web accessibility",
+        "web performance", "authentication", "cross-site scripting",
+        "content security", "frontend state management", "backend integration",
+        "database connectivity", "testing web applications", "deployment"
+      ],
+      "Python Developer": [
+        "Python data types", "lists and tuples", "dictionaries and sets",
+        "functions", "classes and objects", "exception handling", "file handling",
+        "list comprehensions", "generators", "decorators", "iterators",
+        "virtual environments", "package management", "unit testing", "logging",
+        "REST APIs", "database connections", "concurrency",
+        "performance profiling", "Python application deployment"
+      ],
+      "Cybersecurity Analyst": [
+        "phishing detection", "malware analysis", "network monitoring",
+        "intrusion detection", "firewalls", "multi-factor authentication",
+        "least privilege", "vulnerability assessment", "incident response",
+        "security logs", "suspicious traffic", "identity management", "encryption",
+        "password security", "social engineering", "security alerts",
+        "false positives", "risk assessment", "digital forensics", "security awareness"
+      ]
+    };
+        const templates = [
+      topic => `Define ${topic} and explain its main purpose.`,
+      topic => `Explain how ${topic} works, step by step.`,
+      topic => `Give a practical example of ${topic} in a real project.`,
+      topic => `What are the advantages and limitations of ${topic}?`,
+      topic => `What common mistakes occur when working with ${topic}, and how would you avoid them?`,
+      topic => `How would you apply ${topic} to solve a real-world problem?`,
+      topic => `How would you test, evaluate, or improve a solution involving ${topic}?`
+    ];
+
+    const generalQuestions = [
+      "Tell me about yourself.",
+      "Describe a project you completed and your contribution.",
+      "What technical skill are you currently improving?",
+      "Describe a difficult problem you solved.",
+      "How do you handle feedback from a teammate?",
+      "How do you prioritize tasks when facing a deadline?",
+      "Describe a mistake you made and what you learned.",
+      "Why are you interested in this job role?",
+      "How do you explain a technical idea to a beginner?",
+      "What would you like to achieve in your first year in this role?"
+    ];
+
+    function createQuestionBank()  {
+      const topics = roleTopics[role] || roleTopics["Software Developer"];
+      const generated = [];
+      for (const topic of topics) {
+        for (const template of templates) {
+          generated.push(template(topic));
+        }
+      }
+      return [...generalQuestions, ...generated];
+    }
+
+    function shuffle(items) {
+      const copy = [...items];
+      for (let i = copy.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [copy[i], copy[j]] = [copy[j], copy[i]];
+      }
+      return copy;
+    }
+
+    const questionBank = createQuestionBank();
+    const sessionQuestions = [
+      "Tell me about yourself.",
+      ...shuffle(questionBank.filter(q => q !== "Tell me about yourself.")).slice(0, 9)
+    ];
+
+    let index = 0;
+    let answers = [];
+    let recognition = null;
+    let isListening = false;
+    let currentQuestionSubmitted = false;
+    let recordingStartTime = null;
+    let recordingTimerInterval = null;
+    let finalTranscript = "";
+
+    const $ = id => document.getElementById(id);
+
+    function formatElapsedTime(totalSeconds) {
+      const minutes = Math.floor(totalSeconds / 60);
+      const seconds = totalSeconds % 60;
+      return String(minutes).padStart(2, "0") + ":" +
+             String(seconds).padStart(2, "0");
+    }
+
+    function updateRecordingTimer() {
+      if (!recordingStartTime) return;
+      const elapsedSeconds = Math.floor((Date.now() - recordingStartTime) / 1000);
+      $("elapsedTime").textContent = formatElapsedTime(elapsedSeconds);
+    }
+
+    function startRecordingTimer() {
+      stopRecordingTimer();
+      recordingStartTime = Date.now();
+      $("elapsedTime").textContent = "00:00";
+      $("recordingTimer").hidden = false;
+      updateRecordingTimer();
+      recordingTimerInterval = setInterval(updateRecordingTimer, 1000);
+    }
+
+    function stopRecordingTimer() {
+      if (recordingTimerInterval) {
+        clearInterval(recordingTimerInterval);
+        recordingTimerInterval = null;
+      }
+      if (recordingStartTime) updateRecordingTimer();
+      recordingStartTime = null;
+    }
+
+    function speak(text) {
+      if (!("speechSynthesis" in window)) return;
+      window.speechSynthesis.cancel();
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = "en-IN";
+      window.speechSynthesis.speak(utterance);
+    }
+
+    function getGuidance(question) {
+      const text = question.toLowerCase();
+
+      if (text.includes("tell me about yourself")) {
+        return {
+          time: "60–90 seconds",
+          points: [
+            "Briefly introduce yourself and your education.",
+            "Mention two relevant skills.",
+            "Give one project or practical example.",
+            "Explain your career goal and why it fits this role."
+          ]
+        };
+      }
+
+      if (text.includes("define")) {
+        return {
+          time: "45–60 seconds",
+          points: [
+            "Start with a clear definition.",
+            "Explain the main purpose and how it works.",
+            "Give a simple real-world example.",
+            "Mention one advantage or limitation."
+          ]
+        };
+      }
+
+      if (text.includes("example") || text.includes("project")) {
+        return {
+          time: "60–120 seconds",
+          points: [
+            "Explain the situation or problem.",
+            "Describe the tools, concepts, or approach you used.",
+            "Explain your personal contribution.",
+            "Share the result and what you learned."
+          ]
+        };
+      }
+
+      if (text.includes("advantages") || text.includes("limitations")) {
+        return {
+          time: "60–90 seconds",
+          points: [
+            "Briefly explain the concept.",
+            "Give two advantages.",
+            "Explain one limitation or trade-off.",
+            "Include an example and say when you would use it."
+          ]
+        };
+      }
+
+      return {
+        time: "60–90 seconds",
+        points: [
+          "Start by defining the main concept.",
+          "Explain the steps or reasoning clearly.",
+          "Include a practical example.",
+          "Mention challenges, limitations, or alternatives.",
+          "Finish with the outcome or key takeaway."
+        ]
+      };
+    }
+
+    function displayQuestion() {
+      currentQuestionSubmitted = false;
+      stopRecordingTimer();
+      $("recordingTimer").hidden = true;
+
+      const question = sessionQuestions[index];
+      const guidance = getGuidance(question);
+
+      $("questionNumber").textContent =
+        `Question ${index + 1} of ${sessionQuestions.length}`;
+      $("difficultyLabel").textContent = difficulty;
+      $("questionText").textContent = question;
+      $("answerTime").textContent = guidance.time;
+
+      $("guidanceList").replaceChildren();
+      guidance.points.forEach(point => {
+        const li = document.createElement("li");
+        li.textContent = point;
+        $("guidanceList").appendChild(li);
+      });
+
+      $("answerText").value = "";
+      $("feedbackBox").hidden = true;
+      $("nextButton").hidden = true;
+      $("submitButton").disabled = false;
+      $("recordButton").disabled = false;
+      $("stopButton").disabled = true;
+
+      $("progressFill").style.width =
+        `${(index / sessionQuestions.length) * 100}%`;
+
+      $("status").textContent =
+        "Listen to the question, then answer using the suggested structure.";
+
+      // Read only the question when it appears.
+      speak(question);
+    }
+        // Send each answer to the FastAPI + Gemini backend for AI evaluation.
+        async function evaluateWithAI
+        (answer, question) { const response = await fetch("http://127.0.0.1:8000/api/evaluate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          question,
+          answer,
+          role,
+          difficulty
+        })
+      });
+
+      if (!response.ok) {
+        let detail = "The evaluation service returned an error.";
+        try {
+          const errorData = await response.json();
+          if (errorData.detail) detail = errorData.detail;
+        } catch (_) {}
+        throw new Error(detail);
+      }
+
+      return response.json();
+    }
+
+    function asFeedbackText(value) {
+      if (Array.isArray(value)) return value.length ? value.join("; ") : "None listed.";
+      return value || "No feedback provided.";
+    }
+
+    $("submitButton").addEventListener("click", async () => {
+      if (currentQuestionSubmitted) return;
+
+      const answer = $("answerText").value.trim();
+      if (!answer) {
+        $("status").textContent = "Please enter or record an answer first.";
+        return;
+      }
+
+      if (isListening && recognition) recognition.stop();
+
+      $("submitButton").disabled = true;
+      $("status").textContent = "AI is evaluating your answer. Please wait...";
+
+      try {
+        const result = await evaluateWithAI(answer, sessionQuestions[index]);
+        const strengths = asFeedbackText(result.strengths);
+        const improvements = asFeedbackText(result.improvements);
+        const missingConcepts = asFeedbackText(result.missing_concepts);
+        const sampleAnswer = result.sample_improved_answer || "No sample answer provided.";
+
+        answers.push({
+          question: sessionQuestions[index],
+          answer,
+          score: Number(result.score) || 0,
+          strengths,
+          improvements,
+          missingConcepts,
+          sampleImprovedAnswer: sampleAnswer,
+          relevance: result.relevance || ""
+        });
+
+        $("answerScore").textContent = result.score ?? 0;
+        $("strengthText").textContent = strengths;
+        $("improvementText").textContent = improvements;
+        $("missingConceptsText").textContent = missingConcepts;
+        $("sampleAnswerText").textContent = sampleAnswer;
+        $("feedbackBox").hidden = false;
+        currentQuestionSubmitted = true;
+        $("status").textContent = "AI evaluation complete. Review your feedback before continuing.";
+
+        $("nextButton").textContent =
+          index === sessionQuestions.length - 1 ? "View Final Report" : "Next Question →";
+        $("nextButton").hidden = false;
+        $("progressFill").style.width = `${((index + 1) / sessionQuestions.length) * 100}%`;
+
+        speak("Strengths. " + strengths + " Areas to improve. " + improvements);
+      } catch (error) {
+        console.error("AI evaluation failed:", error);
+        $("status").textContent =
+          "Could not evaluate the answer. Check that the backend is running at http://127.0.0.1:8000 and try again. Details: " + error.message;
+        $("submitButton").disabled = false;
+      }
+    });
+
+    $("readAgainButton").addEventListener("click", () => {
+      speak($("questionText").textContent);
+    });
+
+    $("recordButton").addEventListener("click", () => {
+      const SpeechRecognition =
+        window.SpeechRecognition || window.webkitSpeechRecognition;
+
+      if (!SpeechRecognition) {
+        $("status").textContent =
+          "Voice input is not supported here. Please type your answer.";
+        return;
+      }
+
+      if (isListening) return;
+
+      recognition = new SpeechRecognition();
+      recognition.lang = "en-IN";
+      recognition.continuous = true;
+      recognition.interimResults = true;
+      finalTranscript = $("answerText").value.trim();
+
+      recognition.onstart = () => {
+        isListening = true;
+        $("recordButton").disabled = true;
+        $("stopButton").disabled = false;
+        $("status").textContent = "Listening... Speak clearly.";
+        startRecordingTimer();
+      };
+
+      recognition.onresult = event => {
+        let interimTranscript = "";
+
+        for (let i = event.resultIndex; i < event.results.length; i++) {
+          const transcript = event.results[i][0].transcript.trim();
+
+          if (event.results[i].isFinal) {
+            finalTranscript += (finalTranscript ? " " : "") + transcript;
+          } else {
+            interimTranscript += transcript;
+          }
+        }
+
+        $("answerText").value =
+          (finalTranscript + (interimTranscript ? " " + interimTranscript : "")).trim();
+      };
+
+      recognition.onerror = event => {
+        $("status").textContent =
+          `Voice input error: ${event.error}. You can type your answer.`;
+      };
+
+      recognition.onend = () => {
+        isListening = false;
+        $("recordButton").disabled = false;
+        $("stopButton").disabled = true;
+        stopRecordingTimer();
+        $("status").textContent =
+          "Voice input stopped. Review your answer before submitting.";
+        finalTranscript = $("answerText").value.trim();
+      };
+
+      try {
+        recognition.start();
+      } catch (error) {
+        $("status").textContent =
+          "Could not start voice input. Please try again or type your answer.";
+      }
+    });
+
+    $("stopButton").addEventListener("click", () => {
+      if (recognition && isListening) {
+        recognition.stop();
+      } else {
+        stopRecordingTimer();
+      }
+    });
+        $("nextButton").addEventListener("click", () => {
+      if (index < sessionQuestions.length - 1) {
+        index++;
+        displayQuestion();
+      } else {
+        finishInterview();
+      }
+    });
+
+    $("endButton").addEventListener("click", () => {
+      if (isListening && recognition) recognition.stop();
+
+      if (answers.length === 0) {
+        $("status").textContent =
+          "Submit at least one answer before viewing your report.";
+        return;
+      }
+
+      finishInterview();
+    });
+
+    function addListItems(listId, values) {
+      $(listId).replaceChildren();
+
+      [...new Set(values)].slice(0, 8).forEach(value => {
+        const li = document.createElement("li");
+        li.textContent = value;
+        $(listId).appendChild(li);
+      });
+    }
+
+    function finishInterview() {
+      if (isListening && recognition) recognition.stop();
+      stopRecordingTimer();
+
+      if ("speechSynthesis" in window) {
+        speechSynthesis.cancel();
+      }
+
+      const average = answers.length
+        ? Math.round(
+            answers.reduce((sum, item) => sum + item.score, 0) / answers.length
+          )
+        : 0;
+
+      $("finalScore").textContent = average;
+
+      $("reportSummary").textContent =
+        `You answered ${answers.length} question(s) for ${role} at ${difficulty} difficulty. ` +
+        "Scores and feedback are generated by the connected AI evaluation service. Use the suggestions to improve your next answer.";
+
+      addListItems("reportStrengths", answers.map(a => a.strengths));
+      addListItems("reportImprovements", answers.map(a => a.improvements));
+
+      const report = {
+        role,
+        mode,
+        difficulty,
+        score: average,
+        answers,
+        date: new Date().toISOString()
+      };
+
+      try {
+        localStorage.setItem("latestInterviewReport", JSON.stringify(report));
+      } catch (error) {
+        console.warn("Could not save report locally.", error);
+      }
+
+      $("interviewCard").hidden = true;
+      $("reportCard").hidden = false;
+      $("reportCard").scrollIntoView({ behavior: "smooth" });
+    }
+
+    $("restartButton").addEventListener("click", () => {
+      location.href =
+        `session.html?role=${encodeURIComponent(role)}&mode=${encodeURIComponent(mode)}`;
+    });
+
+    // Start the question page automatically.
+    $("interviewCard").hidden = false;
+    displayQuestion();
+  </script>
+</body>
+</html>
