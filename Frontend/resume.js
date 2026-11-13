@@ -36,7 +36,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     try {
       const response = await fetch(
-        "http://127.0.0.1:8000/api/resume/upload",
+          "https://ai-interview-coach-api-cln1.onrender.com/api/evaluate/interview",
         {
           method: "POST",
           body: formData

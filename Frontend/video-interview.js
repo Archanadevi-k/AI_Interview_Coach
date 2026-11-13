@@ -991,7 +991,7 @@ try {
 
   async function evaluateInterviewAnswers(history) {
     const response = await fetch(
-      "http://127.0.0.1:8000/api/evaluate/interview",
+      "https://ai-interview-coach-api-cln1.onrender.com/api/evaluate/interview",
       {
         method: "POST",
         headers: {
