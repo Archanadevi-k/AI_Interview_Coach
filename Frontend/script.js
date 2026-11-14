@@ -61,7 +61,9 @@ document.addEventListener("DOMContentLoaded", function () {
                 options: {
                     data: {
                         full_name: fullName
-                    }
+                    },
+                    emailRedirectTo:
+                    "https://my-ai-interview-coach.netlify.app/login.html"
                 }
             });
 
